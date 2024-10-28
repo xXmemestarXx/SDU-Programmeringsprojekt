@@ -1,6 +1,5 @@
-from comparator_rev_2 import *
+from comparator_rev_3 import *
 
-"""make_comparator"""
 print(f"------- test 1 begin -------")
 print(f"")
 print(f"Testing make_comparator()")
@@ -8,7 +7,7 @@ print(f"")
 i = 0
 j = 2
 c = make_comparator(i, j)
-print(c)
+print(f"i = 0, j = 2 => {c}")
 
 print(f"")
 print(f"------- test 1 end -------")
@@ -21,7 +20,7 @@ print(f"")
 i = 0
 j = 2
 c = make_comparator(i, j)
-print(f"min = {min_channel(c)}, max = {max_channel(c)}")
+print(f"{c} => min = {min_channel(c)}, max = {max_channel(c)}")
 
 print(f"")
 print(f"------- test 2 end -------")
@@ -58,9 +57,9 @@ print(f"Normal: [3,4,2,5] => {apply(comp, w)}")
 v = [1,2,4,5]
 print(f"Sorted: [1,2,4,5] => {apply(comp, v)}")
 z = [1,3,4,4]
-print(f"Dublicated Sorted: [1,3,4,4] => {apply(comp, z)}")
+print(f"Duplicated Sorted: [1,3,4,4] => {apply(comp, z)}")
 k = [2,1,1,3]
-print(f"Dublicated: [2,1,1,3] => {apply(comp, k)}")
+print(f"Duplicated: [2,1,1,3] => {apply(comp, k)}")
 print(f"")
 print(f"------- test 4 end -------")
 print(f"")
@@ -69,8 +68,8 @@ print(f"------- test 5 begin -------")
 print(f"")
 print(f"Testing all_comparators()")
 print(f"")
-n = 5
-print(f"n = 5 => {all_comparators(n)}")
+n = 3
+print(f"n = 3 => {all_comparators(n)}")
 n = 0
 print(f"n = 0 => {all_comparators(n)}")
 n = -3
@@ -83,8 +82,8 @@ print(f"------- test 6 begin -------")
 print(f"")
 print(f"Testing std_comparators()")
 print(f"")
-n = 5
-print(f"n = 5 => {std_comparators(n)}")
+n = 3
+print(f"n = 3 => {std_comparators(n)}")
 n = 0
 print(f"n = 0 => {std_comparators(n)}")
 n = -3
