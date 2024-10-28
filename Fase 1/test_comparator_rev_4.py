@@ -1,4 +1,4 @@
-from comparator_rev_3 import *
+from comparator_rev_4 import *
 
 print(f"------- test 1 begin -------")
 print(f"")
