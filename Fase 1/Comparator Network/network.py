@@ -1,364 +1,457 @@
-"""
-network.py
-Made by H8G03: Valdemar, Mathias og Hlynur
-"""
+import network as Netw
+import comparator as Comp
 
-from dataclasses import dataclass
-import comparator as Comp 
-from permutations import * #Note: We made this module ourselves
+print(f"")
+print(f"------- test comparator.py -------")
+print(f"")
+print(f"------- test 1 begin -------")
+print(f"")
+print(f"Testing make_comparator()")
+print(f"")
+i = 0
+j = 2
+c = Comp.make_comparator(i, j)
+print(f"i = 0, j = 2 => {c}")
 
-"""
-We start by importing the dataclass functionality, the comparator module and our own permutations module.
-"""
+print(f"")
+print(f"------- test 1 end -------")
+print(f"")
 
-@dataclass
-class Network(): 
-    """
-    The network is implemented as a dataclass,
-    whose only property is to create a list of comparator objects.
-    """
-    network: list
+print(f"------- test 2 begin -------")
+print(f"")
+print(f"Testing min_channel() & max_channel()")
+print(f"")
+i = 0
+j = 2
+c = Comp.make_comparator(i, j)
+print(f"{c} => min = {Comp.min_channel(c)}, max = {Comp.max_channel(c)}")
 
-def to_string(net: Network) -> str:
-    """
-    Writes the contents of a Network object to a String
-    Note: Useful for testing
+print(f"")
+print(f"------- test 2 end -------")
+print(f"")
 
-    DOCTEST
-    >>> net.network = [obj_1, obj_2]
-    '[obj_1, obj_2]'
-    """ 
-    return (f"{net.network}")
+print(f"------- test 3 begin -------")
+print(f"")
+print(f"Testing is_standard()")
+print(f"")
+i = 0
+j = 2
+c = Comp.make_comparator(i, j)
+print(f"i = {i} and j = {j} => {Comp.is_standard(c)}")
+i = 2
+j = 0
+c = Comp.make_comparator(i, j)
+print(f"i = {i} and j = {j} => {Comp.is_standard(c)}")
+i = 2
+j = 2
+c = Comp.make_comparator(i, j)
+print(f"i = {i} and j = {j} => {Comp.is_standard(c)}")
 
-def empty_network() -> dataclass:
-    """
-    Creates an empty Network object that only contains an empty list
-    """
-    return Network([])
+print(f"")
+print(f"------- test 3 end -------")
+print(f"")
 
-def append(c: Comp, net: Network) -> None:
-    """
-    Appends a comparator c to the Network, net. 
-    
-    Iterates on net and does not make a copy of it in memory.
+print(f"------- test 4 begin -------")
+print(f"")
+print(f"Testing apply()")
+print(f"")
+comp = Comp.make_comparator(i = 0, j = 0)
+w = [3,4,2,5]
+print(f"Normal: [3,4,2,5] => {Comp.apply(comp, w)}")
+v = [1,2,4,5]
+print(f"Sorted: [1,2,4,5] => {Comp.apply(comp, v)}")
+z = [1,3,4,4]
+print(f"Duplicated Sorted: [1,3,4,4] => {Comp.apply(comp, z)}")
+k = [2,1,1,3]
+print(f"Duplicated: [2,1,1,3] => {Comp.apply(comp, k)}")
+print(f"")
+print(f"------- test 4 end -------")
+print(f"")
 
-    DOCTEST
-    >>> append(Comparator_1,Network)
-    >>> append(Comparator_2,Network)
-    Network = [Comparator_1, Comparator_2]
-    """
-    net.network.append(c)
+print(f"------- test 5 begin -------")
+print(f"")
+print(f"Testing all_comparators()")
+print(f"")
+n = 3
+print(f"n = 3 => {Comp.all_comparators(n)}")
+n = 0
+print(f"n = 0 => {Comp.all_comparators(n)}")
+n = -3
+print(f"n = -3 => {Comp.all_comparators(n)}")
+print(f"")
+print(f"------- test 5 end -------")
+print(f"")
 
-def size(net: Network) -> int:
-    """
-    Returns the amount of Comparators in a Network 
-    in the form of an integer
+print(f"------- test 6 begin -------")
+print(f"")
+print(f"Testing std_comparators()")
+print(f"")
+n = 3
+print(f"n = 3 => {Comp.std_comparators(n)}")
+n = 0
+print(f"n = 0 => {Comp.std_comparators(n)}")
+n = -3
+print(f"n = -3 => {Comp.std_comparators(n)}")
+print(f"")
+print(f"------- test 6 end -------")
+print(f"")
 
-    DOCTEST
-    Network.network = [Comparator_1,Comparator_2]
-    >>> size(Network)
-    2
-    """
-    return len(net.network)
+print(f"------- test 7 begin -------")
+print(f"")
+print(f"Testing to_program()")
+print(f"")
+i = "i"
+j = "j"
+to_program_c = Comp.make_comparator(i = str(i), j = str(j))
+print(Comp.to_program(Comp.Comparator(i, j), var = "network", aux = "temp"))
+print(f"")
+print(f"------- test 7 end -------")
 
-def max_channel(net: Network) -> int:
-    """
-    Returns the largest j-value in the network. The main difference in not using
-    max.channel() from comparator.py is that we avoid
-    non-standard Comparators.
+print(f"")
+print(f"------- test network.py -------")
+print(f"")
+print(f"------- test 1 start -------")
+print(f"")
+print(f"Testing to_string()")
 
-    Instead it uses get_j() from comparator as an auxiliary function
-    Therefore Comparator.py needs to be imported.
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(1,2)
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
 
-    Requirement: 
-    size(net) > 0
+print(f"The network object to convert: {Net}")
+print(f"Converted to string: {Netw.to_string(Net)}")
 
-    DOCTEST
-    Comparator_1.i = 2
-    Comparator_1.j = 4
-    
-    Comparator_2.i = 1
-    Comparator_2.j = 5
+print(f"")
+print(f"------- test 1 end -------")
+print(f"")
 
-    Comparator_3.i = 2
-    Comparator_3.j = -1
-
-    append(Comparator_1,Network)
-    append(Comparator_2,Network)
-    append(Comparator_3,Network)
-    
-    >>> max_channel(Network)
-    5
-    """
-
-    max = Comp.get_j(net.network[0])
-
-    """
-    We start by equating the maximum channel of the network to
-    the maximum channel of the first comparator of the network.
-
-    This also ensures that if there is only one comparator in the 
-    network, the following for-each loop is skipped.
-    """
-    for i in range(1,size(net)):
-        """
-        Thereafter we check the maximum channel of each Comparator one-by-one
-        except the first one, since we already checked it.
-        """
-
-        if Comp.get_j(net.network[i]) > max:
-            """
-            If the function finds a bigger number via the for-loop 
-            and if-statement, it overwrites the previous maximum channel
-            and continues to check the other Comparators
-            """
-            max = Comp.get_j(net.network[i])
-    return max
-
-def is_standard(net: Network) -> bool:
-    """
-    Checks whether the input Network only
-    contains standard comparators or not
-
-    Note:
-    A standard comparator is a comparator where
-    its j-value is larger than its i-value
-    
-    Uses is.standard() from comparator module as an 
-    auxiliary function. Therefore Comparator.py
-    needs to be imported.
-
-    Requirement:
-    size(net) > 0
-
-    DOCTEST
-    Net_1 = empty_network()
-    Com_1 = comparator_1.make_comparator(7,1)
-    Com_2 = comparator_1.make_comparator(3,5)
-    append(Com_1,Net_1)
-    append(Com_2,Net_1)
-    
-    >>> is_standard(Net_1)
-    False
-    """
-
-    for i in range(0,size(net)):
-        """
-        We go through the list of Comparators and check one-by-one if they
-        are standard or not. If at least one of them is non-standard then
-        the whole function returns false.
-        """
-        
-        if Comp.is_standard(net.network[i]) is False:
-            return False
-        
-    """
-    If the for-each loop reached the end of the list without ever finding at
-    least one non-standard Comparator then the function returns True.
-    
-    None are False => All are True
-    """
-    return True
-
-def apply(net: Network, w: list[int]) -> list[int]:
-    """
-    Sorts a single list of integers using comparators
-    in a network.
-
-    Requirement:
-    size(net) > 0
-    len(w) > 0
-
-    DOCTEST
-    net = empty_network()
-    Com_1 = Comp.make_comparator(1,3)
-    Com_2 = Comp.make_comparator(2,3)
-
-    w = [1,2,4,3]
-
-    append(Com_1, net)
-    append(Com_2, net)
-
-    >>> apply(net, w)
-    [1, 2, 3, 4]
-    """
-    
-    for i in range(0, size(net)):
-        """
-        For every Comparator in the network, apply the 
-        Comparators on the list, so every Comparator is
-        used at least once  
-        """
-        Comp.apply(net.network[i],w)
-    
-    return w
-
-def outputs(net: Network, w: list[list[int]]) -> list[int]:
-    """
-    Returns a sorted list of lists containing no duplicates
-    The list themselves are not sorted
-
-    Requirement:
-    size(net) > 0
-    len(net) > 0    
-
-    DOCTEST
-    net = empty_network()
-    
-    Com_1 = Comp.make_comparator(0,1)
-    Com_2 = Comp.make_comparator(1,2)
-
-    append(Com_1,net)
-    append(Com_2,net)
-    
-    v = [[36,25,25],[36563236,63425,4433660]]
-
-    >>> outputs(net, v)
-    [[25,25,36],[63425,4433660,36563236]]
-    """
-
-    for i in range(0,len(w)):
-        """
-        Sorts the individual lists inside the w
-        by using apply() as an auxiliary function
-        """
-        apply(net,(w[i]))
-
-        """
-        Depends on if we want to also remove the duplicate
-        numbers in the list
-        """
-
-        """
-        Python supports the datatype sets which are unorderd
-        collections of elements with no duplicates.
-        Python can convert a list to a set using the set()
-        function which will also remove any duplicate elements.
-
-        But by converting the set back to a list using the
-        list() function, we essentially get the original list
-        without duplicates, since we didn't change the order
-        of the set or modified it in any other way.
-
-        w[i] = set(w[i])
-        w[i] = list(w[i])
-        """
-    return w
+print(f"")
+print(f"------- test 2 start -------")
+print(f"")
+print(f"Testing empty_network()")
+print(f"Test a empty network {Netw.empty_network()}")
 
 
-def all_outputs(net: Network, n: int) -> list[list[int]]:
-    """
-    Returns all permutations of 0 and 1 of n length,
-    essentially the same as counting from 0 to n in binary,
-    and then sortes them and removes repeats.
+print(f"")
+print(f"------- test 2 end -------")
+print(f"")
 
-    Requirement:
-    n > 0
+print(f"")
+print(f"------- test 3 start -------")
+print(f"")
 
-    DOCTEST
-    >>> all_outputs(1)
-    [[0],[1]]
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(1,2)
 
-    >>> all_outputs(3)
-    [[000],[001],[010],[011],[100],[101],[111]]
-    """
+print(f"Testing append()")
+print(f"Before append(): {Net}")
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+print(f"After append(): {Net}")
 
-    permu = permutations(n)
+print(f"")
+print(f"------- test 3 end -------")
+print(f"")
 
-    permu = outputs(net,permu)
+print(f"")
+print(f"------- test 4 start -------")
+print(f"")
 
-    permu_no_dupe = []
+print(f"Testing size()")
+Net = Netw.empty_network()
+print(f"Before append, {Net}")
+print(f"Before append, size: {Netw.size(Net)}")
 
-    for i in range(0,len(permu)):
-        if permu[i] not in permu_no_dupe:
-           permu_no_dupe.append(permu[i]) 
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(1,2)
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
 
-    return permu_no_dupe
+print(f"After append, {Net}")
+print(f"After append, size: {Netw.size(Net)}")
+
+print(f"")
+print(f"------- test 4 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 5 start -------")
+print(f"")
+
+print(f"Testing max_channel()")  
+
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Netw.append(Com_1,Net)
+print(f"Network to test: {Net}")
+print(f"Max channel: {Netw.max_channel(Net)}")
+
+Com_2 = Comp.make_comparator(1,2)
+Com_3 = Comp.make_comparator(3,4)
+
+Netw.append(Com_2,Net)
+Netw.append(Com_3,Net)
+
+print(f"Network to test: {Net}")
+print(f"Max channel: {Netw.max_channel(Net)}")
+
+print(f"")
+print(f"------- test 5 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 6 start -------")
+print(f"")
+
+print(f"Testing is_standard()")  
+
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(1,2)
+Com_3 = Comp.make_comparator(4,3)
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+Netw.append(Com_3,Net)
+
+print(f"")
+print(f"Network to test: {Net}")
+print(f"Does the network only contain std comparators: {Netw.is_standard(Net)}")
+print(f"")
+Net_1 = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(4,5)
+Com_3 = Comp.make_comparator(2,5)
+Netw.append(Com_1,Net_1)
+Netw.append(Com_2,Net_1)
+Netw.append(Com_3,Net_1)
+
+print(f"Network to test: {Net_1}")
+print(f"Does the network only contain std comparators: {Netw.is_standard(Net_1)}")
+
+print(f"")
+print(f"------- test 6 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 7 start -------")
+print(f"")
+
+print(f"Testing apply()")
+
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(1,2)
+Com_2 = Comp.make_comparator(3,4)
+Com_3 = Comp.make_comparator(0,1)
 
 
-def is_sorting(net: Network, size: int) -> bool:
-    """
-    We will refer the variable size to letter n
-    
-    Checks wheter a sorting network is able to correctly sort
-    a network with n amount of channels with the comparators
-    it has. 
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+Netw.append(Com_3,Net)
 
-    DOCTEST
-    Net_1 = empty_network()
-    Com_1 = Comp.make_comparator(1,3)
-    Com_2 = Comp.make_comparator(2,4)
-    append(Com_1,Net_1)
-    append(Com_2,Net_1)
-    
-    Net_2 = empty_network()
-    Com_3 = Comp.make_comparator(0,1)
-    com_4 = Comp.make_comparator(0,2)
-    Com_5 = Comp.make_comparator(1,2)
-    append(Com_3,Net_2)
-    append(Com_4,Net_2)
-    append(Com_5,Net_2
-    
-    >>> is_sorting(Net_1, 3)
-    False
-    
-    >>> is_sorting(Net_2, 3)
-    True
-    """
-    """
-    Checking the minimum criteria for the network.
-    """
-    if len(net.network) == 0:
-        return False
+v = [1,2,0,4,3]
 
-    if max_channel(net) != (size-1) : #Code using 0-indexing
-        return False
-    
-    """
-    First we create all permutations of 0 and 1
-    of n length and place it in a list
-    """
-    permu = all_outputs(net,size)
+print(f"Testing sorting the network with correct comparators")
+print(f"")
+print(f"{Net}")
+print(f"")
+print(f"List before: {v}")
+print(f"")
+print(f"Each step taken for sorting the list")
+print(f"")
+print(f"List after: {Netw.apply(Net,v)}")
+print(f"")
 
-    """
-    We check if the list of lists of integers are
-    sorted correctly be checking every integer
-    one-by-one. If a previous value is larger
-    than the following value then the list
-    is sorted incorrectly. If all previous values
-    are less than the following values then the list
-    is sorted correctly.
-    """
-    
-    for i in range(0,len(permu)-1):
-        for j in range(0,len(permu[i])-1):
-            if permu[i][j] > permu[i][j+1]: 
-                return False
-    return True
+Net_1 = Netw.empty_network()
+Com_1 = Comp.make_comparator(1,3)
+Com_2 = Comp.make_comparator(1,2)
+Com_3 = Comp.make_comparator(3,4)
+Com_4 = Comp.make_comparator(2,3)
 
-def to_program(net: Network, var: str, aux: str)-> list[str]:
-    """
-    Returns a list of instructions that simulates the Comparator network.
+Netw.append(Com_1,Net_1)
+Netw.append(Com_2,Net_1)
+Netw.append(Com_3,Net_1) 
+Netw.append(Com_4,Net_1)
 
-    DOCTEST
-    net = empty_network()
-    Com_1 = Comp.make_comparator(0,1)
-    Com_2 = Comp.make_comparator(2,3)
-    Com_3 = Comp.make_comparator(0,2)
-    append(Com_1, net)
-    append(Com_2, net)
-    append(Com_3, net)
-    >>> to_program(Net1, var, aux)
-    [['if var[0] > var[1]:', 'aux = var[0]', 'var[0] = var[1]', 'var[1] = aux'], ['if var[2] > var[3]:',
-    'aux = var[2]', 'var[2] = var[3]', 'var[3] = aux'], ['if var[0] > var[2]:', '
-             aux = var[0]', '    var[0] = var[2]', '    var[2] = aux']]
-    """
-    # Note: The output from this program can be run by the command exec() and should result in the same execution as apply()
-    returned_list = []
+w = [1,2,0,4,3]
 
-    for i in range(size(net)): # Iterates through the entire network
-        for j in range(len(Comp.to_program(net.network[i], var, aux))): # Iterates through the list from to_program() in comparator.py 
-            returned_list.append(Comp.to_program(net.network[i], var, aux)[j]) # Appends each line as a new element in returned_list
-            # Next line is only needed if you need to be able to run the code
-            returned_list.append("\n") # Creates a new line to seperate each output from to_program() in comparator.
-    return returned_list
+print(f"Testing sorting the network with wrong comparators")
+print(f"")
+print(f"{Net_1}")
+print(f"")
+print(f"List before: {w}")
+print(f"")
+print(f"List after: {Netw.apply(Net_1,w)}")
+
+print(f"")
+print(f"------- test 7 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 8 start -------")
+print(f"")
+
+print(f"Testing outputs()")
+
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(0,2)
+Com_3 = Comp.make_comparator(1,2)
+
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+Netw.append(Com_3,Net)
+
+w = [[36,25,25],[36563236,63425,4433660]]
+print(f"Testing sorting the network with correct comparators")
+print(f"")
+print(f"{Net}")
+print(f"List before: {w}")
+print(f"")
+print(f"List after: {Netw.outputs(Net,w)}")
+print(f"")
+
+print(f"")
+print(f"------- test 8 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 9 start -------")
+print(f"")
+
+print(f"Testing all_outputs()")
+
+Net = Netw.empty_network()
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(0,2)
+Com_3 = Comp.make_comparator(1,2)
+
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+Netw.append(Com_3,Net)
+
+print(f"Network to test with: {Net}")
+print(f"All permutations unsorted: {Netw.permutations(3)}")
+print(f"All permutations sorted: {Netw.all_outputs(Net, 3)}")
+
+print(f"")
+print(f"------- test 9 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 10 start -------")
+print(f"")
+
+print(f"Testing is_sorting()")
+
+print(f"")
+print(f"For us to check is_sorting(), we need to check the cases where,")
+print(f"Evertyhing is OK, and then all the false cases possible, being")
+print(f"len == 0, max_channel != size-1, all if statements is true,")
+print(f"but one comparator is missing")
+print(f"")
+
+Net = Netw.empty_network()
+
+com1 = Comp.make_comparator(0,1)
+com2 = Comp.make_comparator(0,2)
+com3 = Comp.make_comparator(1,2)
+
+Netw.append(com1,Net)
+Netw.append(com2,Net)
+Netw.append(com3,Net)
+
+print(f"First case where the three criteria are OK")
+print(f"Max: {Netw.max_channel(Net)}")
+
+print(f"The network contains: {Netw.to_string(Net)}")
+print(f"")
+
+print(f"Is the network able to sort a network of size {3}: {Netw.is_sorting(Net,3)}")
+
+Net = Netw.empty_network()
+
+print(f"")
+print(f"Second case where the network is empty")
+print(f"Max: 0")
+
+print(f"The network contains: {Netw.to_string(Net)}")
+print(f"")
+
+print(f"Is the network able to sort a network of size {0}: {Netw.is_sorting(Net,0)}")
+
+print(f"")
+print(f"Third case where the network max_channel is not equal to size-1")
+
+Net = Netw.empty_network()
+
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(0,2)
+Com_3 = Comp.make_comparator(1,3)
+
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+Netw.append(Com_3,Net)
+
+
+print(f"Max: {Netw.max_channel(Net)}")
+
+print(f"The network contains: {Netw.to_string(Net)}")
+print(f"")
+
+print(f"Is the network able to sort a network of size {4}: {Netw.is_sorting(Net,5)}")
+
+print(f"")
+print(f"Fourth case where the network is missing one singular comparator")
+
+Net = Netw.empty_network()
+
+Com_1 = Comp.make_comparator(0,1)
+Com_2 = Comp.make_comparator(1,2)
+
+Netw.append(Com_1,Net)
+Netw.append(Com_2,Net)
+
+print(f"Max: {Netw.max_channel(Net)}")
+
+print(f"The network contains: {Netw.to_string(Net)}")
+print(f"")
+
+print(f"Is the network able to sort a network of size {3}: {Netw.is_sorting(Net,3)}")
+
+print(f"")
+print(f"------- test 10 end -------")
+print(f"")
+
+print(f"")
+print(f"------- test 11 start -------")
+print(f"")
+
+print(f"Testing to_program()")
+print(f"")
+
+Net = Netw.empty_network()
+v = [9,5,8,23]
+len_v = len(v)
+for i in range(len_v - 1):
+    for j in range(len_v - 1):
+        Com = Comp.make_comparator(j, j+1)
+        Netw.append(Com, Net)
+outputs = Netw.to_program(Net, "v", "aux")
+print(outputs)
+
+empty_string = ""
+
+for x in range(len(outputs)):
+    empty_string += outputs[x]
+
+print(f"list before: {v}")
+aux:int
+exec(empty_string)
+print(f"list after: {v}")
+
+print(f"")
+print(f"------- test 11 end -------")
+print(f"")
