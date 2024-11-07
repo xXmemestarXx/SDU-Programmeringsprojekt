@@ -193,7 +193,7 @@ def apply(net: Network, w: list[int]) -> list[int]:
     
     return w
 
-def outputs(net: Network, w: list[list[int]]) -> list[int]:
+def outputs(net: Network, w: list[list[int]]) -> list[list[int]]:
     """
     Returns a sorted list of lists containing no duplicates
     The list themselves are not sorted
