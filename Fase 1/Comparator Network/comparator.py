@@ -7,7 +7,8 @@ from dataclasses import dataclass
 
 """
 Implements a custom dataclass that uses two variables i and j as integers.
-This enables creating a instance of a comparator that symbolizes the gates of a comparator network.
+This enables creating a instance of a comparator that symbolizes'
+the gates of a comparator network.
 """
 @dataclass
 class Comparator:
@@ -111,13 +112,16 @@ def all_comparators(n: int) -> list[Comparator]:
     DOCTEST
     n = 3
     >>> all_comparators(n)
-    [Comparator(i=0, j=1), Comparator(i=0, j=2), Comparator(i=1, j=0), Comparator(i=1, j=2), Comparator(i=2, j=0), Comparator(i=2, j=1)]
+    [Comparator(i=0, j=1), Comparator(i=0, j=2), Comparator(i=1, j=0),
+     Comparator(i=1, j=2), Comparator(i=2, j=0), Comparator(i=2, j=1)]
     """
     comparators=[]
-
-    for i in range(n): # This iterates the nested part of the for loop, and ensures we print all combinations of i and j.
+    # This iterates the nested part of the for loop,
+    # and ensures we print all combinations of i and j.
+    for i in range(n): 
         for j in range(n):
-            if i != j: # Ensures that i and j are not equal, to comply with the defintion of a comparator
+            # Ensures that i and j are not equal, to comply with the defintion of a comparator
+            if i != j: 
                 comparators.append(Comparator(i,j))
     return comparators
 
@@ -133,10 +137,12 @@ def std_comparators(n: int) -> list[Comparator]:
     [Comparator(i=0, j=1), Comparator(i=0, j=2), Comparator(i=1, j=2)]
     """
     comparators=[]
-
-    for i in range(n): # This iterates the nested part of the for loop, and ensures we print all combinations of i and j.
+    # This iterates the nested part of the for loop, 
+    # and ensures we print all combinations of i and j.
+    for i in range(n): 
         for j in range(n):
-            if(i != j and is_standard(Comparator(i,j))): # Checks if i and j are not equal and is a standard comparator
+            # Checks if i and j are not equal and is a standard comparator
+            if(i != j and is_standard(Comparator(i,j))):
                 comparators.append(Comparator(i,j))
     return comparators
     
@@ -151,7 +157,8 @@ def to_program(c: Comparator, var: str, aux: str) -> list[str]:
     aux = "temp"
     c = make_comparator(i, j) 
     >>> to_program(c, var, aux)
-    ['if new_list[0] > new_list[1]:', 'temp = new_list[0]', 'new_list[0] = new_list[1]', 'new_list[1] = temp']
+    ['if new_list[0] > new_list[1]:', 'temp = new_list[0]',
+    'new_list[0] = new_list[1]', 'new_list[1] = temp']
     """
     return [
     f"if {var}[{c.i}] > {var}[{c.j}]:",
