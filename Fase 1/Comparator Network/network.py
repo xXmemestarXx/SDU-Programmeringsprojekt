@@ -8,7 +8,8 @@ import comparator as Comp
 from permutations import * #Note: We made this module ourselves
 
 """
-We start by importing the dataclass functionality, the comparator module and our own permutations module.
+We start by importing the dataclass functionality, 
+the comparator module and our own permutations module.
 """
 
 @dataclass
@@ -349,16 +350,21 @@ def to_program(net: Network, var: str, aux: str)-> list[str]:
     append(Com_2, net)
     append(Com_3, net)
     >>> to_program(Net1, var, aux)
-    [['if var[0] > var[1]:', 'aux = var[0]', 'var[0] = var[1]', 'var[1] = aux'], ['if var[2] > var[3]:',
-    'aux = var[2]', 'var[2] = var[3]', 'var[3] = aux'], ['if var[0] > var[2]:', '
-             aux = var[0]', '    var[0] = var[2]', '    var[2] = aux']]
+    [['if var[0] > var[1]:', 'aux = var[0]', 'var[0] = var[1]', 'var[1] = aux'],
+    ['if var[2] > var[3]:', 'aux = var[2]', 'var[2] = var[3]', 'var[3] = aux'],
+    ['if var[0] > var[2]:', 'aux = var[0]', 'var[0] = var[2]', 'var[2] = aux']]
     """
-    # Note: The output from this program can be run by the command exec() and should result in the same execution as apply()
+    # Note: The output from this program can be run by the command exec()
+    # and should result in the same execution as apply()
     returned_list = []
 
-    for i in range(size(net)): # Iterates through the entire network
-        for j in range(len(Comp.to_program(net.network[i], var, aux))): # Iterates through the list from to_program() in comparator.py 
-            returned_list.append(Comp.to_program(net.network[i], var, aux)[j]) # Appends each line as a new element in returned_list
+    # Iterates through the entire network
+    for i in range(size(net)): 
+         # Iterates through the list from to_program() in comparator.py
+        for j in range(len(Comp.to_program(net.network[i], var, aux))): 
+            # Appends each line as a new element in returned_list
+            returned_list.append(Comp.to_program(net.network[i], var, aux)[j]) 
             # Next line is only needed if you need to be able to run the code
-            returned_list.append("\n") # Creates a new line to seperate each output from to_program() in comparator.
+            # Creates a new line to seperate each output from to_program() in comparator.
+            returned_list.append("\n")
     return returned_list
