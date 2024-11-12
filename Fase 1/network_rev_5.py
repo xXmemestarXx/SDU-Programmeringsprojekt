@@ -4,8 +4,8 @@ Made by H8G03: Valdemar, Mathias og Hlynur
 """
 
 from dataclasses import dataclass
-import comparator_rev_5 as Comp
-from permu_test_5 import *
+import comparator_rev_6 as Comp
+from permutations import * #Note: We made this module ourselves
 
 """
 We start by importing the dataclass functionality, and the comparator module
@@ -209,17 +209,19 @@ def outputs(net: Network, w: list[list[int]]) -> list[int]:
 
     DOCTEST
     net = empty_network()
-    Com_1 = Comp.make_comparator(-7,19)
-    Com_2 = Comp.make_comparator(3,-5)
-    Com_3 = Comp.make_comparator(3,42)
-
-    w = [[1,6],[32,7],[42,4,-2,5,7,22,5],[32343,42,74]]
-
+    
+    Com_1 = Comp.make_comparator(0,1)
+    Com_2 = Comp.make_comparator(1,2)
+    Com_3 = Comp.make_comparator(0,2)
+    
     append(Com_1,net)
     append(Com_2,net)
     append(Com_3,net)
-    >>> outputs(net, w)
-    [[1, 6], [32, 7], [4, 5, 7, 42, 22, -2], [42, 74, 32343]]
+    
+    v = [[36,25,25],[36563236,63425,4433660]]
+
+    >>> outputs(net, v)
+    [[25,36],[63425,4433660,36563236]]
     """
 
     for i in range(0,len(w)):
@@ -238,7 +240,7 @@ def outputs(net: Network, w: list[list[int]]) -> list[int]:
         But by converting the set back to a list using the
         list() function, we essentially get the original list
         without duplicates, since we didn't change the order
-        of the set or modified it in any way.
+        of the set or modified it in any other way.
         """
         w[i] = set(w[i])
         w[i] = list(w[i])
@@ -248,38 +250,49 @@ def outputs(net: Network, w: list[list[int]]) -> list[int]:
 
 def all_outputs(net: Network, n: int) -> list[list[int]]:
     """
-    Returns all possible binary outputs of length n from net.
-    --ChatGPT--
-    """
-    all_outputs_here = []
-    permu = permutations(n)
-        
-    # Append the binary output list to outputs
-    all_outputs_here.append(permu)
-    
-    outputs(net, all_outputs_here)
-    return all_outputs_here
+    Returns all permutations of 0 and 1 of n length,
+    essentially the same as counting from 0 to n in binary.
 
-def all_outputs_test(n: int) -> list[list[int]]:
-    """
-    Returns all possible binary outputs of length n. 
-    The function is used for testing the output of all_outputs. 
-    It is printed in the test file, 
-    to show the difference in all binary premutations,
-    and the sorted version using comparators.
-    --ChatGPT--
-    """
-    outputs = []
-    permu = permutations(n)
-        
-    # Append the binary output list to outputs
-    outputs.append(permu)
-    
-    return outputs
 
+
+
+    """
+    
+    permu = permutations(n)
+
+    permu = outputs(net,permu)
+
+    return permu
+
+# Important! Functionalitet afhænger af hvad Luis svarer på email!
 def is_sorting(net: Network, size: int) -> bool:
     """
-    Checkes if net is a valid 'sorterings netværk' for n inputs.
+    
+    We will refer the variable size to letter n
+    
+    Checks wheter a sorting network is able to correctly sort
+    a network with n amount of channels with the comparators
+    it has. 
+
+    To achieve this there are (at least) main two strategies.
+        
+        1:
+        Check whether the network have all the neccesay
+        comparators to correctly sort n amount of channels.
+        
+        This method allows the network to contain reduntant
+        comparators but that isn't relevant to question of
+        if a specific network can sort n amount of channels.
+        
+        2:
+        Try to sort all permutations of 0's and 1's of
+        n amount of digtigts using the network in question
+        and check if the network sorted it correctly or not.
+
+        This method also allows the network to 
+        contain reduntant comparators 
+    
+    
     DOCTEST
     Net = empty_network()
     Com_1 = Comp.make_comparator(1,3)
@@ -289,39 +302,92 @@ def is_sorting(net: Network, size: int) -> bool:
     append(Com_2,Net)
     >>> is_sorting(Net, size(Net))
     True
+    
     """
-    if len(net.network) == 0 or is_standard(net) == False:
-        """
-        First we check if size(net) is smaller than 1, or if is_standatd(net) is False.
-        returns False
-        """
+    
+    
+    """
+    There are some minimum criteria for valid network:
+
+        1: The network should not be empty
+
+        2: The network should only contain standard comparators
+
+        3: The network should not have a comparator whoose
+            max channel is equel or larger than the size of
+            the net we want to solve (remember that the
+            comparators use 0-indexing in code). If the
+            network have such a comparator then the network
+            will try to place a value in a nonexistant
+            channel which will crash the program.
+
+    If the network does not furfill all the requirements
+    then it will not to able correctly sort.
+    """
+    if len(net.network) == 0:
         return False
 
-    checked_list = all_outputs(net, size)  # Stores the list of lists as checked_list
-    for i in range (len(checked_list)-1):  # Itereates through the parent list
-        for j in range(len(checked_list[i])-2):  # Iterates through each list in the parent list
-            if(checked_list[i][j] > checked_list[i][j+1]): # Check if it is sorted
-                return False
-    return True
-def to_program(net: Network, var: str, aux: str)-> list[str]:
+    if is_standard(net) == False:
+        return False
+
+    if max_channel(net) > (size-1): #Code using 0-indexing
+        return False
+
+
     """
-    Returns a list of instructions that simulates the ComparatorNetwork.
-    DOCTEST
-    Net1 = empty_network()
-    Com_1 = Comp.make_comparator(0,1)
-    Com_2 = Comp.make_comparator(2,3)
-    Com_3 = Comp.make_comparator(0,2)
-    append(Com_1,Net1)
-    append(Com_2,Net1)
-    append(Com_3,Net1)
-    >>> to_program(Net1, var, aux)
-    [['if var[0] > var[1]:', '    aux = var[0]', '    var[0] = var[1]', '    var[1] = aux'], ['if var[2] > var[3]:', '    aux = var[2]', '    var[2] = var[3]', '    var[3] = aux'], ['if var[0] > var[2]:', '    aux = var[0]', '    var[0] = var[2]', '    var[2] = aux']]
+    Strategy 1
+
+    First we make a new network that contains all the 
+    comparators that are neccessary to sort n amount of
+    channels.
+
+    We will use std_comparators()as a auxillary function
     """
-    # Note; The output from this program can be run by the command exec() and should result in the same execution as apply()
-    returned_list=[]
-    for i in range(size(net)): # iterates through the entire network
-        for j in range(len(Comp.to_program(net.network[i],var,aux))): # iterates through the list from to_program() in comparator.py 
-            returned_list.append(Comp.to_program(net.network[i],var,aux)[j]) # appends each line as a new element in returned_list
-            # Next line is only needed if you need to be able to run the code
-            returned_list.append("\n") # Creates a new line to seperate each output from to_program() in comparator.
-    return returned_list
+    
+    new_net = Comp.std_comparators(size)
+
+    """
+    Thereafter we will check if the new network containing all
+    the neccesary comparators is a subset of the network we
+    want to check.
+
+    Python supports checking whether a list is a subset
+    of a nother list by using the <= operater.
+     
+    Unfortunately to be able to use the <= operater
+    the elements need to be in same order in the lists
+    which isn't neccesary in this situation
+
+    To deal with this we can converts the list of
+    comparators to sets which by definitiona are
+    unordered as mentioned in the documentation of outputs()
+
+    Additionally Python has a inbuilt function for sets
+    called issubset() which return a boolean.
+
+    But there is a problem. For a list to be converted to a set
+    its contents needs to be hashable and immutable, which list
+    are not.
+
+    Therefore we also need to extract the contents of the
+    comparators to list and put them inside tuple which
+    are immutable.
+    """
+  
+    old = set()
+
+    new = set()
+
+
+    for c in range(0,len(net.network)):
+        old.add(Comp.get_i_and_j(net.network[c]))
+    
+    for c in range(0,len(new_net)):
+        new.add(Comp.get_i_and_j(new_net[c]))
+
+
+    print(old)
+    print(new)
+
+    return new.issubset(old)
+
