@@ -1,8 +1,11 @@
 import network as Netw
 import comparator as Comp
 from dataclasses import *
-
-Filter = list[Netw.Network, list[list[int]]]
+@dataclass
+class Filter:
+    n: Netw.Network
+    out: list[list[int]]
+    size: int
 
 def make_empty_filter(n: int) -> Filter:
     """
@@ -14,7 +17,8 @@ def make_empty_filter(n: int) -> Filter:
     """
     net = Netw.empty_network()
     out = Netw._all_binary_inputs(n)
-    return[net, out]
+    size = n
+    return Filter(net,out,size)
 
 def net(f: Filter) -> Netw.Network:
     """
@@ -25,8 +29,8 @@ def net(f: Filter) -> Netw.Network:
     >>> net(test_filter)
     []
     """
-    copy = f[:]
-    return copy[0]
+    copy = f.n
+    return copy
 
 def out(f: Filter) -> list[list[int]]:
     """
@@ -37,8 +41,20 @@ def out(f: Filter) -> list[list[int]]:
     >>> out(test_filter)
     [[0, 0], [1, 0], [0, 1], [1, 1]]
     """
-    copy = f[:]
-    return copy[1]
+    copy = f.out    
+    return copy
+
+def get_size(f: Filter) -> int:
+    """
+    Returns the size of the filter
+
+    DOCTEST
+    test_filter = make_empty_filter(2)
+    >>> get_size(test_filter)
+    2
+    """
+    copy = f.size
+    return copy
 
 def is_redundant(c: Comp.Comparator, f: Filter)-> bool:
     """
@@ -47,8 +63,12 @@ def is_redundant(c: Comp.Comparator, f: Filter)-> bool:
     all_outputs() in network.py.
 
     DOCTEST
-    test_comp = make_comparator(0, 2)
-    test_filter = make_empty_filter(2)
+    n = 3
+    filt_test = filt.make_empty_filter(n)
+    filt_test = filt.add(2, filt_test)
+    Filter(n=[2], out=[[0, 0, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]])
+    >>> is_redundant(2, filt_test)
+    True
     """
 
     copy_net = net(f)
@@ -57,7 +77,7 @@ def is_redundant(c: Comp.Comparator, f: Filter)-> bool:
     copy_net = copy_net + [c]
 
     new_per = Netw.outputs(copy_net, copy_per)
-    return f[1] == new_per
+    return f.out == new_per
 
 def add(c: Comp.Comparator, f: Filter) -> Filter:
     """
@@ -71,7 +91,8 @@ def add(c: Comp.Comparator, f: Filter) -> Filter:
     """
     new_net = list(net(f)) + [c]
     new_out = Netw.outputs(new_net, out(f))
-    return [new_net, new_out] 
+    n = get_size(f)
+    return Filter(new_net,new_out,n)
 
 
 def is_sorting(f: Filter) -> bool:
@@ -79,6 +100,13 @@ def is_sorting(f: Filter) -> bool:
     Checks if the network in the filter is a sorting network.
 
     DOCTEST
-    
+    n = 3
+    filt_test = filt.make_empty_filter(n)
+    filt_test = filt.add(2, filt_test)
+    filt_test = filt.add(5, filt_test)
+    filt_test = filt.add(8, filt_test)
+    Filter(n=[2, 5, 8], out=[[0, 0, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]], size=3)
+    >>> is_sorting(filt_test)
+    False
     """
-    return (len(out(f)[0]) < 2) or Netw.is_sorting(net(f),len(out(f)))
+    return (len(out(f)[0]) < 2) or Netw.is_sorting(net(f),len(out(f)[0]))
