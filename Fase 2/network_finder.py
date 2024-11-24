@@ -1,7 +1,7 @@
 """
 network_finder.py
 
-Written by Mathias, Hlynur and Valdemar H8
+Written by Hlynur, Mathias and Valdemar H8G03
 
 DM574 Exam project
 """
@@ -9,7 +9,6 @@ DM574 Exam project
 """
 Importing 3rd party libaries
 """
-import functools as Func
 from dataclasses import *
 
 """

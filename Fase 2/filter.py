@@ -1,6 +1,25 @@
+"""
+filter.py
+
+Written by Hlynur, Mathias and Valdemar H8G03
+
+DM574 Exam project
+"""
+
+"""
+Importing 3rd party libaries
+"""
+from dataclasses import *
+
+"""
+Importing our own modules
+"""
 import network as Netw
 import comparator as Comp
-from dataclasses import *
+
+"""
+Create a dataclass called Filter
+"""
 @dataclass
 class Filter:
     n: Netw.Network
