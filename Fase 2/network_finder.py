@@ -3,7 +3,7 @@ network_finder.py
 
 Written by Mathias, Hlynur and Valdemar H8
 
-DM574 Examprojekt
+DM574 Exam project
 """
 
 """
