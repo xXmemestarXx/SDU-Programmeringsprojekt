@@ -46,7 +46,7 @@ print(
     ._______________________________________.
     |                                       |
     |   Welcome to Network Finder program   |
-    |     by Mathias, Hlynur & Valdemar     |
+    |     by Hlynur, Mathias & Valdemar     |
     `_______________________________________´
     """)
 
