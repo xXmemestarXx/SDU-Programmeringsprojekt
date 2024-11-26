@@ -13,7 +13,7 @@ import functools as Func
 from dataclasses import *
 
 """
-Importing our own modules
+Importing our own and our lecturer's modules
 """
 import comparator as Comp
 import network as Netw
@@ -26,39 +26,43 @@ Comparator = int
 Network = list[Comparator]
 Filter = list[Netw.Network, list[list[int]]]
 
-def combine(a,b):
+def _check_and_add(c: Comparator, f: Filter) -> Filter:
     """
-    Combines to lists or numbers. Used for a reduce function  
+    Small auxillary function that combines add() and
+    is_redundant() from the Filter module. The function
+    is to be used with the map() function.
 
-    DOCTEST
-    a = [1, 2, 3]
-    b = [3, 2, 1]
-    >>> combine(a, b)
-    [1, 2, 3, 3, 2, 1]  
-    """
-    c = a+b
-    return c
-
-def check_and_add(c: Comparator, f: Filter) -> Filter:
-    """
     Checks whether the input Comparator, c, is redundant
-    if it were to be added to the input Filter, f. 
+    if it would to be added to the input Filter, f. 
     If it is not reduntant then add the Comparator to
     the Filter and return a new Filter.
 
-    If the Comparator is redundant then we return
-    the unchanged input Filter
+    Since the map function needs to always return some
+    some type value, the auxillary function will return
+    the int 0 when a Comparator is redundant. If we
+    removed the line then the auxillary function would
+    return None if a Comparator is redundant.
 
-    DOCTEST
-    filt_test = Filt.make_empty_filter(3)
-    >>> check_and_add(2, filt_test)
-    Filter(n=[2], out=[[0, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1], [0, 1, 1], [1, 1, 1]], size=3)
     """
     if not Filt.is_redundant(c,f):
         new_filter = Filt.add(c,f)
         return new_filter
     else:
-        return f
+        return 0
+    
+def _combine_elements(a: any, b: any) -> list:
+    """
+    Small auxillary function that just adds two
+    different elements. Exists to not use lambda
+    in a reduce function later on.
+
+    For some using lambda x,y: x+y gets a value
+    error and lambda x,y: x+x changes the order 
+    of the Comparators in the network. Don't know if we
+    are bad at coding or if it is a Python thing.
+
+    """
+    return a+b
 
 def extend(w: list[Filter], n: int) -> list[Filter]:
     """
@@ -96,21 +100,16 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     times since Python's version of the map
     function returns an object.
     """
-    Carte_Prod = list(
-                        map(lambda f: 
-                                    list(
-                                        list(
-                                            map(lambda c: check_and_add(c,f),stdComp)
-                                            )
-                                        ),
-                                        w
-                            )    
-                    )
+    carte_prod = list(map(lambda f: list(map(lambda c: _check_and_add(c,f),stdComp)),w))                                   
+  
+    combined_filters = Func.reduce(_combine_elements,carte_prod)
 
     """
-    The last thing we do is combining all the 
-    Cartesian products to a single list
+    Python always requires an else clause when using
+    if-statements in a map. There _add_and_check()
+    returns 0 when a Comparator is redundant. We
+    remove all the 0's using the filter function
     """
-    extended_filter = Func.reduce(combine, Carte_Prod)
+    extended_filters =  list(filter(lambda x: x != 0,combined_filters))
 
-    return extended_filter
+    return extended_filters

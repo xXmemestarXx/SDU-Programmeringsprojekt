@@ -12,7 +12,7 @@ Importing 3rd party libaries
 from dataclasses import *
 
 """
-Importing our own modules
+Importing our own and our lecturer's modules
 """
 import comparator as Comp
 import network as Netw
@@ -34,42 +34,57 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     """
     if any(list(map(Filt.is_sorting, f))):
         return list(filter(lambda x: Filt.is_sorting(x) == True, f))[0]
+    
     i = i + 1
     extended_filters = Gene.extend(f, n)
     clean_list = Prun.prune(extended_filters, n)
-    print(f"Iteration: {i}")
+ 
     return make_sorting_network(clean_list, n, i)
 
-print(
-    """
-    ._______________________________________.
-    |                                       |
-    |   Welcome to Network Finder program   |
-    |     by Hlynur, Mathias & Valdemar     |
-    `_______________________________________´
-    """)
+done = False
 
-print("Tip: Time needed to calculate is proportional to amount of channels ")
+while not done:
+    print(
+        """
+        ._______________________________________.
+        |                                       |
+        |   Welcome to Network Finder program   |
+        |     by Hlynur, Mathias & Valdemar     |
+        `_______________________________________´
+        """)
 
-channel_amount = int(input("Please enter how many channels you want to sort: "))
+    print("Tip: Time needed to calculate is proportional to amount of channels ")
 
-while 1 > channel_amount:
-    """
-    Checks wheter the input is valid number or not
-    """
-    if 0 >= channel_amount:
-        print("Please enter a number greater than zero")
+    channel_amount = int(input("Please enter how many channels you want to sort: "))
 
-    else:
-        print("Invalid input")
-    channel_amount = int(input())
+    while 1 > channel_amount:
+        """
+        Checks wheter the input is valid number or not
+        """
+        if 0 >= channel_amount:
+            print("Please enter a number greater than zero")
+
+        else:
+            print("Invalid input")
+        channel_amount = int(input())
 
 
-all_filters = [Filt.make_empty_filter(channel_amount)]
+    all_filters = [Filt.make_empty_filter(channel_amount)]
 
-print(f"The first Filter's network contains {Filt.net(all_filters[0])} and its outputs are {Filt.out(all_filters[0])}")
-print("")
+    print(f"Finding a sorting network for {channel_amount} channels... \n")
 
-all_filters = make_sorting_network(all_filters, channel_amount, 0)
+    sorting_network = make_sorting_network(all_filters, channel_amount, 0)
 
-print(f"Extended filter: {all_filters}")
+    print(f"Found a sorting network for {channel_amount} channels with size {Netw.size(Filt.net(sorting_network))} \n")
+
+    print(f"An inplementation of the sorting network in Python would look like: \n")
+
+ 
+    program_string = Netw.to_program(Filt.net(sorting_network),'','')
+    
+    for i in range(0,len(program_string)):
+        print(program_string[i])
+
+
+    done = True
+
