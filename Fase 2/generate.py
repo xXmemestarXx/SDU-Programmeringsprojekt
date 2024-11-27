@@ -25,45 +25,7 @@ Importing definitions of data structures
 Comparator = int
 Network = list[Comparator]
 Filter = list[Netw.Network, list[list[int]]]
-
-def _check_and_add(c: Comparator, f: Filter) -> Filter:
-    """
-    Small auxillary function that combines add() and
-    is_redundant() from the Filter module. The function
-    is to be used with the map() function.
-
-    Checks whether the input Comparator, c, is redundant
-    if it would to be added to the input Filter, f. 
-    If it is not reduntant then add the Comparator to
-    the Filter and return a new Filter.
-
-    Since the map function needs to always return some
-    some type value, the auxillary function will return
-    the int 0 when a Comparator is redundant. If we
-    removed the line then the auxillary function would
-    return None if a Comparator is redundant.
-
-    """
-    if not Filt.is_redundant(c,f):
-        new_filter = Filt.add(c,f)
-        return new_filter
-    else:
-        return 0
     
-def _combine_elements(a: any, b: any) -> list:
-    """
-    Small auxillary function that just adds two
-    different elements. Exists to not use lambda
-    in a reduce function later on.
-
-    For some using lambda x,y: x+y gets a value
-    error and lambda x,y: x+x changes the order 
-    of the Comparators in the network. Don't know if we
-    are bad at coding or if it is a Python thing.
-
-    """
-    return a+b
-
 def extend(w: list[Filter], n: int) -> list[Filter]:
     """
     Adds all non-redundant standard comparators for
@@ -100,16 +62,25 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     times since Python's version of the map
     function returns an object.
     """
-    carte_prod = list(map(lambda f: list(map(lambda c: _check_and_add(c,f),stdComp)),w))                                   
+    #carte_prod = list(map(lambda f: list(map(lambda c: _check_and_add(c,f),stdComp)),w))                                   
   
-    combined_filters = Func.reduce(_combine_elements,carte_prod)
+    carte_prod = list(map(lambda f: list(map(lambda c: Filt.add(c,f) if not Filt.is_redundant(c,f) else [],stdComp)),w))                                   
+    """
+    Since the lambda function needs to always return some
+    some type value, the lambda function will return
+    the empty list when a Comparator is redundant. If we
+    removed the line then the auxillary function would
+    return None if a Comparator is redundant.
+    """
 
+    combined_filters = Func.reduce(lambda x,y: x+y,carte_prod)
+    
     """
     Python always requires an else clause when using
     if-statements in a map. There _add_and_check()
-    returns 0 when a Comparator is redundant. We
+    returns a empty list when a Comparator is redundant. We
     remove all the 0's using the filter function
     """
-    extended_filters =  list(filter(lambda x: x != 0,combined_filters))
+    extended_filters =  list(filter(lambda x: x != [],combined_filters))
 
     return extended_filters
