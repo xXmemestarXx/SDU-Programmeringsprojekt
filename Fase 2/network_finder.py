@@ -77,7 +77,7 @@ while not done:
 
     print(f"Found a sorting network for {channel_amount} channels with size {Netw.size(Filt.net(sorting_network))} \n")
 
-    print(f"An inplementation of the sorting network in Python would look like: \n")
+    print(f"An implementation of the sorting network in Python would look like: \n")
 
  
     program_string = Netw.to_program(Filt.net(sorting_network),'','')
