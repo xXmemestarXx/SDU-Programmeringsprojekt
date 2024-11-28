@@ -50,13 +50,13 @@ print(f"")
 
 print(f"------- test 4 begin -------")
 print(f"")
-print(f"Testing get_size()")
+print(f"Testing size()")
 print(f"")
 
 filt_test = Filt.make_empty_filter(0)
 filt_test2 = Filt.make_empty_filter(2)
-print(f"{filt_test} => get_size(filter) => {Filt.get_size(filt_test)}")
-print(f"{filt_test2} => get_size(filter) => {Filt.get_size(filt_test2)}")
+print(f"{filt_test} => size(filter) => {Filt.size(filt_test)}")
+print(f"{filt_test2} => size(filter) => {Filt.size(filt_test2)}")
 print(f"")
 print(f"------- test 4 end -------")
 print(f"")
@@ -71,8 +71,12 @@ filt_test = Filt.make_empty_filter(3)
 filt_test2 = Filt.make_empty_filter(3)
 filt_test2 = Filt.add(2, filt_test)
 
-print(f"{filt_test} => Testing a single comparator is_redundant(2, filter) => {Filt.is_redundant(2, filt_test)}")
-print(f"{filt_test2} => Testing duplicated comparators is_redundant(2, filter) => {Filt.is_redundant(2, filt_test2)}")
+# Doing this to minmize length of the statement
+print_help = Filt.is_redundant(2, filt_test)
+print_help2 = Filt.is_redundant(2, filt_test2)
+
+print(f"{filt_test} => Testing a single comparator => {print_help}")
+print(f"{filt_test2} => Testing duplicated comparators => {print_help2}")
 print(f"")
 print(f"------- test 5 end -------")
 print(f"")
@@ -117,59 +121,25 @@ print(f"------- test generate.py -------")
 print(f"")
 print(f"------- test 1 begin -------")
 print(f"")
-print(f"Testing combine()")
-print(f"")
-
-a = [1, 2, 3]
-b = [3, 2, 1]
-
-print(f"List a {a}, list b {b} => combine(a,b) => {Gene.combine(a, b)}")
-
-print(f"")
-print(f"------- test 1 end -------")
-print(f"")
-
-print(f"------- test 2 begin -------")
-print(f"")
-print(f"Testing check_and_add()")
-print(f"")
-
-filt_test = Filt.make_empty_filter(3)
-
-filt_test2 = Filt.make_empty_filter(3)
-filt_test2 = Filt.add(2, filt_test)
-
-print(f"{filt_test} => check_and_add(2, filter) => {Gene.check_and_add(2, filt_test)}")
-print(f"")
-print(f"Added a comparator before calling chech_and_add function")
-print(f"{filt_test2} => check_and_add(3, filter ) => {Gene.check_and_add(3, filt_test2)}")
-
-print(f"")
-print(f"------- test 2 end -------")
-print(f"")
-
-print(f"------- test 3 begin -------")
-print(f"")
 print(f"Testing extend()")
 print(f"")
 
-n = 2
-filt_test = Filt.make_empty_filter(n)
-std_comp = Comp.std_comparators(n)
-w = [filt_test]
-filt_test2 = Gene.extend(w, n)
-print(f"The standard comparators that is used {std_comp}, and n = {n}")
-print(f"{filt_test} => extend(w, n) => {filt_test2}")
-print(f"")
+F1 = Filt.add(2,Filt.make_empty_filter(3))
+F2 = Filt.add(5,Filt.make_empty_filter(3))
+F3 = Filt.add(8,Filt.make_empty_filter(3))
 
-n = 3
-filt_test = Filt.make_empty_filter(n)
-std_comp = Comp.std_comparators(n)
-w = [filt_test]
-filt_test2 = Gene.extend(w, n)
-print(f"The standard comparators that is used {std_comp}, and n = {n}")
-print(f"{filt_test} => extend(w, n) => {filt_test2}")
+all_filters = [F1,F2,F3]
+
+for i in range(0,len(all_filters)):
+    print(f"Filter {i+1} network:{Filt.net(all_filters[i])} => {Filt.out(all_filters[i])}\n")
+
+new = Gene.extend(all_filters,3)
+
+print("After Extending")
+
+for i in range(0,len(new)):
+    print(f"Filter {i+1} network:{Filt.net(new[i])} => {Filt.out(new[i])}\n")
 
 print(f"")
-print(f"------- test 3 end -------")
+print(f"------- test 1 end -------")
 print(f"")

@@ -30,7 +30,8 @@ so the user knows when and how they are using the program wrong.
 
 def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     """
-    Checks if there is one or more sorting networks in the filter list, and then returns the first sorting network. 
+    Checks if there is one or more sorting networks in the filter list, 
+    and then returns the first sorting network. 
     """
     if any(list(map(Filt.is_sorting, f))):
         return list(filter(lambda x: Filt.is_sorting(x) == True, f))[0]
@@ -74,8 +75,11 @@ while not done:
     print(f"Finding a sorting network for {channel_amount} channels... \n")
 
     sorting_network = make_sorting_network(all_filters, channel_amount, 0)
-
-    print(f"Found a sorting network for {channel_amount} channels with size {Netw.size(Filt.net(sorting_network))} \n")
+    
+    # Doing this to minmize length of the statement
+    print_help = Netw.size(Filt.net(sorting_network))
+     
+    print(f"Found a sorting network for {channel_amount} channels with size {print_help} \n")
 
     print(f"An implementation of the sorting network in Python would look like: \n")
 

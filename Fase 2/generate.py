@@ -64,7 +64,8 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     """
     #carte_prod = list(map(lambda f: list(map(lambda c: _check_and_add(c,f),stdComp)),w))                                   
   
-    carte_prod = list(map(lambda f: list(map(lambda c: Filt.add(c,f) if not Filt.is_redundant(c,f) else [],stdComp)),w))                                   
+    carte_prod = list(map(lambda f: list(map(lambda c: Filt.add(c,f)
+                 if not Filt.is_redundant(c,f) else [],stdComp)),w))                                   
     """
     Since the lambda function needs to always return some
     some type value, the lambda function will return
