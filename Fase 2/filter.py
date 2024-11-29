@@ -35,6 +35,8 @@ class Filter:
 
 def make_empty_filter(n: int) -> Filter:
     """
+    Preconditions: n > 0
+
     Returns a filter with an empty network and all binary permutations of length n.
 
     DOCTEST

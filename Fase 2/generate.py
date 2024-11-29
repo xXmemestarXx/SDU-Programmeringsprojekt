@@ -28,6 +28,8 @@ Filter = list[Netw.Network, list[list[int]]]
     
 def extend(w: list[Filter], n: int) -> list[Filter]:
     """
+    Preconditions: n > 0 and len(w) > 0
+
     Adds all non-redundant standard comparators for
     n amount of channels to the Filters in 
     the input list, w. 

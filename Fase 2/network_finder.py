@@ -30,8 +30,9 @@ so the user knows when and how they are using the program wrong.
 
 def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     """
-    Checks if there is one or more sorting networks in the filter list, 
-    and then returns the first sorting network. 
+    Preconditions: n > 0 and len(f) > 0
+
+    Checks if there is one or more sorting networks in the filter list, and then returns the first sorting network. 
     """
     if any(list(map(Filt.is_sorting, f))):
         return list(filter(lambda x: Filt.is_sorting(x) == True, f))[0]
@@ -39,7 +40,7 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     i = i + 1
     extended_filters = Gene.extend(f, n)
     clean_list = Prun.prune(extended_filters, n)
- 
+    print(len(clean_list))
     return make_sorting_network(clean_list, n, i)
 
 done = False
@@ -75,13 +76,10 @@ while not done:
     print(f"Finding a sorting network for {channel_amount} channels... \n")
 
     sorting_network = make_sorting_network(all_filters, channel_amount, 0)
-    
-    # Doing this to minmize length of the statement
-    print_help = Netw.size(Filt.net(sorting_network))
-     
-    print(f"Found a sorting network for {channel_amount} channels with size {print_help} \n")
 
-    print(f"An implementation of the sorting network in Python would look like: \n")
+    print(f"Found a sorting network for {channel_amount} channels with size {Netw.size(Filt.net(sorting_network))} \n")
+
+    print(f"An inplementation of the sorting network in Python would look like: \n")
 
  
     program_string = Netw.to_program(Filt.net(sorting_network),'','')
