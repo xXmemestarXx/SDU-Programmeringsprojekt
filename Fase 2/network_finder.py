@@ -41,7 +41,6 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     i = i + 1
     extended_filters = Gene.extend(f, n)
     clean_list = Prun.prune(extended_filters, n)
-    print(len(clean_list))
     return make_sorting_network(clean_list, n, i)
 
 done = False
@@ -80,7 +79,7 @@ while not done:
 
     print(f"Found a sorting network for {channel_amount} channels with size {Netw.size(Filt.net(sorting_network))} \n")
 
-    print(f"An inplementation of the sorting network in Python would look like: \n")
+    print(f"An implementation of the sorting network in Python would look like: \n")
 
  
     program_string = Netw.to_program(Filt.net(sorting_network),'','')

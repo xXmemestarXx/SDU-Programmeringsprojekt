@@ -64,7 +64,8 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     times since Python's version of the map
     function returns an object.
     """
-    #carte_prod = list(map(lambda f: list(map(lambda c: _check_and_add(c,f),stdComp)),w))                                   
+    #carte_prod = list(map(lambda f: 
+    #list(map(lambda c: _check_and_add(c,f),stdComp)),w))                                   
   
     carte_prod = list(map(lambda f: list(map(lambda c: Filt.add(c,f)
                  if not Filt.is_redundant(c,f) else [],stdComp)),w))                                   
