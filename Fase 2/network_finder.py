@@ -23,9 +23,10 @@ import prune as Prun
 
 """
 network_finder is essentially a small Command Line Interface program, or CLI.
-Therefore the user interface, UI, and the user experience, UX, needs to be taking
-into acoount. The simplest way to do this is by printing guiding helpful messages,
-so the user knows when and how they are using the program wrong. 
+Therefore the user interface, UI, and the user experience, UX,
+needs to be taking into acoount. The simplest way to do this is by printing
+guiding helpful messages, so the user knows when
+and how they are using the program wrong. 
 """
 
 def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
