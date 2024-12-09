@@ -23,27 +23,25 @@ import prune as Prun
 
 """
 network_finder is essentially a small Command Line Interface program, or CLI.
-Therefore the user interface, UI, and the user experience, UX,
-needs to be taking into acoount. The simplest way to do this is by printing
-guiding helpful messages, so the user knows when
-and how they are using the program wrong. 
+Therefore the user interface, UI, and the user experience, UX, needs to be taking
+into acoount. The simplest way to do this is by printing guiding helpful messages,
+so the user knows when and how they are using the program wrong. 
 """
 
 def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     """
-    Preconditions: n > 0 and len(f) > 0
-
     Checks if there is one or more sorting networks in the filter list, and then returns the first sorting network. 
     """
     if any(list(map(Filt.is_sorting, f))):
-        for i in range(0,len(list(filter(lambda x: Filt.is_sorting(x) == True), f))):
+        
+        for i in range(0,len(list(filter(lambda x: Filt.is_sorting(x) == True, f)))):
             print(list(filter(lambda x: Filt.is_sorting(x) == True, f))[i])
         return list(filter(lambda x: Filt.is_sorting(x) == True, f))[0]
     
     i = i + 1
     extended_filters = Gene.extend(f, n)
-    clean_list = Prun.boring_prune(extended_filters, n)
-    print(f"ext list: {len(extended_filters)}, clean list {len(clean_list)}")
+    clean_list = Prun.prune(extended_filters, n)
+ 
     return make_sorting_network(clean_list, n, i)
 
 done = False
@@ -57,7 +55,6 @@ while not done:
         |     by Hlynur, Mathias & Valdemar     |
         `_______________________________________´
         """)
-
     print("Tip: Time needed to calculate is proportional to amount of channels ")
 
     channel_amount = int(input("Please enter how many channels you want to sort: "))
@@ -82,13 +79,14 @@ while not done:
 
     print(f"Found a sorting network for {channel_amount} channels with size {Netw.size(Filt.net(sorting_network))} \n")
 
-    print(f"An implementation of the sorting network in Python would look like: \n")
+    print(f"An inplementation of the sorting network in Python would look like: \n")
 
  
     program_string = Netw.to_program(Filt.net(sorting_network),'','')
     
     for i in range(0,len(program_string)):
         print(program_string[i])
+
 
     done = True
 
