@@ -36,13 +36,14 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     Checks if there is one or more sorting networks in the filter list, and then returns the first sorting network. 
     """
     if any(list(map(Filt.is_sorting, f))):
-        for i in range(0,len(list(filter(lambda x: Filt.is_sorting(x) == True, f)))):
+        for i in range(0,len(list(filter(lambda x: Filt.is_sorting(x) == True), f))):
             print(list(filter(lambda x: Filt.is_sorting(x) == True, f))[i])
-        return list(filter(lambda x: Filt.is_sorting(x) == True, f))
+        return list(filter(lambda x: Filt.is_sorting(x) == True, f))[0]
     
     i = i + 1
     extended_filters = Gene.extend(f, n)
-    clean_list = Prun.prune(extended_filters, n)
+    clean_list = Prun.boring_prune(extended_filters, n)
+    print(f"ext list: {len(extended_filters)}, clean list {len(clean_list)}")
     return make_sorting_network(clean_list, n, i)
 
 done = False
@@ -83,11 +84,11 @@ while not done:
 
     print(f"An implementation of the sorting network in Python would look like: \n")
 
+ 
     program_string = Netw.to_program(Filt.net(sorting_network),'','')
     
     for i in range(0,len(program_string)):
         print(program_string[i])
-    print(sorting_network)
-    
+
     done = True
 
