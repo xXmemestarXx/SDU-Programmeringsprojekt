@@ -41,7 +41,7 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     i = i + 1
     extended_filters = Gene.extend(f, n)
     clean_list = Prun.prune(extended_filters, n)
- 
+    # return make_sorting_network(extended_filters, n, i)
     return make_sorting_network(clean_list, n, i)
 
 done = False
@@ -89,4 +89,3 @@ while not done:
 
 
     done = True
-
