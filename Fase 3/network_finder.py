@@ -14,11 +14,11 @@ from dataclasses import *
 """
 Importing our own and our lecturer's modules
 """
-import comparator as Comp
+
 import network as Netw
-import filter as Filt
-import generate as Gene
-import prune as Prun
+import filter_new as Filt
+import generate_new as Gene
+import prune_cool as Prun
 
 
 """
@@ -40,7 +40,7 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     
     i = i + 1
     extended_filters = Gene.extend(f, n)
-    # clean_list = Prun.prune(extended_filters, n)
+    #clean_list = Prun.prune(extended_filters, n)
     return make_sorting_network(extended_filters, n, i)
     print(f"Ext list: {len(extended_filters)}, Clean list: {len(clean_list)}")
     return make_sorting_network(clean_list, n, i)

@@ -1,7 +1,6 @@
-import comparator as Comp
+
 import network as Netw
-import filter as Filt
-import generate as Gene
+import filter_new as Filt
 import functools
 """
 can i find out the optimal score for every size n and just cut every filter that gets less than the score.

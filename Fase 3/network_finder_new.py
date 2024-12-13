@@ -17,8 +17,8 @@ Importing our own and our lecturer's modules
 import comparator as Comp
 import network as Netw
 import filter_new as Filt
-import generate as Gene
-import prune as Prun
+import generate_new as Gene
+import prune_cool as Prun
 
 
 """
@@ -46,7 +46,7 @@ def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     
     print("")
 
-    # return make_sorting_network(extended_filters, n, i)
+    #return make_sorting_network(extended_filters, n, i)
     return make_sorting_network(clean_list, n, i)
 
 done = False
