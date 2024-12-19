@@ -1,0 +1,9 @@
+No prune;;;;;;Boring prune;;;;;;Score prune;;;;
+n;Runtime [s];Size found;Optimal;Error  [%];;n;Runtime [s];Size found;Optimal;Error [%];;n;Runtime [s];Size found;Optimal;Error  [%]
+1;0,025;0;0;0;;1;0,023;0;0;0;;1;0,028;0;0;0
+2;0,025;1;1;0;;2;0,023;1;1;0;;2;0,023;1;1;0
+3;0,026;3;3;0;;3;0,025;3;3;0;;3;0,029;3;3;0
+4;0,220;5;5;0;;4;0,035;6;5;20;;4;0,023;5;5;0
+5;DNF;DNF;DNF;DNF;;5;0,937;10;9;11,11;;5;0,045;9;9;0
+6;DNF;DNF;DNF;DNF;;6;300,785;15;12;25;;6;1,287;15;12;25
+7;DNF;DNF;DNF;DNF;;7;DNF;DNF;DNF;DNF;;7;10,495;20;16;25

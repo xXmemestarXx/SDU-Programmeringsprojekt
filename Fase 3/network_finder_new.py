@@ -18,7 +18,7 @@ import comparator as Comp
 import network as Netw
 import filter_new as Filt
 import generate_new as Gene
-import prune_cool as Prun
+import prune as Prun
 
 
 """
