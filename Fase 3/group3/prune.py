@@ -3,12 +3,23 @@ import functools
 import network as Netw
 
 def prune(w:list[Filt.Filter], n: int) -> list[Filt.Filter]:
-    """..."""
+    """Returns the implementation of prune used, change the function to either
+      'boring_prune', 'score_prune' or 'vector_prune.' to use different implementations."""
     return vector_prune(w, n)
 
     
 def boring_prune(w, n):
-    """Does something boring."""
+    """
+    Returns all filters with unique outputs from input list w.
+    Implementation is based on the sieve of Eratosthenes algorithm.
+    Using a boolean list and two for-each-loops, the function looks
+    through the given list and compare the outputs for the filters,
+    where it crosses out filters if the outputs are non-unique
+
+    reg:
+    len(w) > 0   
+    """
+
     keep = [True for i in range(0, len(w)+1)]
     pruned = []
 
@@ -49,6 +60,7 @@ def make_list(n: int) -> list[list[int]]:
     5th. reversed halved list [4, 3, 2, 1, 9, 8, 7, 6, 5] if n==9
 
     Returnes a list of these 5 lists.
+    
     DOCTEST
     
     >>> make_list(3)
@@ -95,13 +107,12 @@ def score_prune(w: list[Filt.Filter],n: int) -> list[Filt.Filter]:
     """
     Uses a point system to find out which filters will advance, 
     point system consists of using calc_score() to find the highest score of all the filters, 
-    and only passsing the ones that are close to that high_score, how close is proportional to
+    and only passsing the ones that are close to that high_score, how close it is proportional to
     length of w, the larger the list of filters the higher percentage of filters will get pruned.
-
     """
 
     score_list= list(map(lambda x: calc_score(x,n), w)) # creates list by using map and calc_score on w
-    high_score= functools.reduce(lambda a,b: a if a>b else b,score_list) #finds the higest value in score_list
+    high_score= functools.reduce(lambda a,b: a if a>b else b,score_list) # finds the higest value in score_list
 
     returned_list=[]
     i=0
@@ -221,7 +232,7 @@ def sort_dist_and_filt(v: list[int],w: list[Filt.Filter]) -> list[Filt.Filter]:
     len(v) = len(w) 
     len(v), len(w) > 0
 
-    DOCTEST:
+    DOCTEST
 
     v = [1,5,8,3]
     w = [Filter_1,Filter_2,Filter_3,Filter_4]

@@ -76,7 +76,7 @@ def is_redundant(c: Comp.Comparator, f: Filter)-> bool:
     Bigger_Filter = add(Comparator,Filter)
 
     >>> is_redundant(Comparator,Filter)
-    false
+    False
     
     >>> is_redundant(Comparator,Bigger_Filter)
     True
