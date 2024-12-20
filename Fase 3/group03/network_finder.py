@@ -30,7 +30,8 @@ so the user knows when and how they are using the program wrong.
 
 def make_sorting_network(f: list[Filt.Filter], n: int, i: int) -> Filt.Filter:
     """
-    Checks if there is one or more sorting networks in the filter list, and then returns the first sorting network. 
+    Checks if there is one or more sorting networks in the filter list, 
+    and then returns the first sorting network. 
     """
     if any(list(map(Filt.is_sorting, f))):
         # for i in range(0,len(list(filter(lambda x: Filt.is_sorting(x) == True, f)))):

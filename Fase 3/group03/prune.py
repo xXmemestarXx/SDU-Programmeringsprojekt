@@ -106,18 +106,24 @@ def calc_score(f: Filt.Filter,n: int) -> int:
 def score_prune(w: list[Filt.Filter],n: int) -> list[Filt.Filter]:
     """
     Uses a point system to find out which filters will advance, 
-    point system consists of using calc_score() to find the highest score of all the filters, 
-    and only passsing the ones that are close to that high_score, how close it is proportional to
-    length of w, the larger the list of filters the higher percentage of filters will get pruned.
+    point system consists of using calc_score() to find the
+    highest score of all the filters, and only passsing the
+    ones that are close to that high_score, 
+    how close it is proportional to
+    length of w, the larger the list of filters the higher percentage
+    of filters will get pruned.
     """
 
-    score_list= list(map(lambda x: calc_score(x,n), w)) # creates list by using map and calc_score on w
-    high_score= functools.reduce(lambda a,b: a if a>b else b,score_list) # finds the higest value in score_list
+    # creates list by using map and calc_score on w
+    score_list= list(map(lambda x: calc_score(x,n), w)) 
+    # finds the higest value in score_list
+    high_score= functools.reduce(lambda a,b: a if a>b else b,score_list) 
 
     returned_list=[]
     i=0
     score_prox=high_score-(50/len(w))
-    while( i < (len(score_list))): # prunes w by matching scores for each filter with the score_list.
+    # prunes w by matching scores for each filter with the score_list.
+    while( i < (len(score_list))): 
         if(score_list[i] < score_prox):
             i=i+1
         else:

@@ -16,8 +16,8 @@ Importing our own and our lecturer's modules
 """
 import comparator as Comp
 import network as Netw
-import filter_new as Filt
-import generate_new as Gene
+import filter as Filt
+import generate as Gene
 import prune as Prun
 
 def make_sorted_outputs(n: int):
