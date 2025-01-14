@@ -1,5 +1,5 @@
-import comparator as c
-from comparator import Comparator
+
+from comparator2 import Comparator
 
 Network = list[Comparator]
 # The comparators are in reverse order, just because.

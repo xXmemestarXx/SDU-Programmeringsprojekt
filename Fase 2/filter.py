@@ -15,7 +15,7 @@ from dataclasses import *
 Importing our lecturer's modules
 """
 import network as Netw
-import comparator as Comp
+import comparator2 as Comp
 
 @dataclass
 class Filter:

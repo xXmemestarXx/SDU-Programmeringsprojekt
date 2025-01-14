@@ -7,10 +7,10 @@ from dataclasses import *
 """
 Importing our own modules
 """
-import comparator as Comp
+import comparator2 as Comp
 import network as Netw
 import filter as Filt
-import generate as Gene
+import generate2 as Gene
 
 F1 = Filt.add(2,Filt.make_empty_filter(3))
 F2 = Filt.add(5,Filt.make_empty_filter(3))
