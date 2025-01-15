@@ -14,7 +14,7 @@ from dataclasses import *
 """
 Importing our own and our lecturer's modules
 """
-import comparator as Comp
+import comparator2 as Comp
 import network as Netw
 import filter as Filt
 import generate as Gene

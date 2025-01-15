@@ -49,17 +49,19 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     stdComp = Comp.std_comparators(n)
     
     # Gets state of filter list before
-    out1 = Filt.out(w)
+    #out1 = Filt.out(w)
     # Adds a std comparator to filter
-    Filt.add(Comp.make_comparator(stdComp[0]),w)
+    #Filt.add(Comp.make_comparator(stdComp[0]),w)
     # Gets state after filter add.
-    out2 = Filt.out(w)
-
-    res = []
+    #out2 = Filt.out(w)
 
     # Checks diff and adds the given comp.
-    if out1 != out2:
-        res.append(stdComp[0])
-
-    return res
+    #if out1 != out2:
+    #    res.append(stdComp[0])
     
+    res = []
+
+    for x in range(len(w)):
+        if Filt.is_redundant(stdComp[x],w):
+            res.append(stdComp[x])
+    return res
