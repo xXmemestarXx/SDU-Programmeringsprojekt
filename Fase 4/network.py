@@ -6,7 +6,6 @@ import comparator as Comp
 """
 Define a Network as list of Comparators
 """
-Comparator = int
 Network = list[Comparator]
 
 def empty_network() -> Network:
@@ -55,28 +54,17 @@ def apply(net: Network, w: list[int]) -> list[int]:
 
     Returns a new list and does not edit the original
     """
-   
-    """ First try
-    if size(net) == 0:
-        return w
-    else:
-        v = w[:]
-        return [Comp.apply(x,v) for x in net]
-    """
-
     v = w[:]
     for c in net:
         v = Comp.apply(c,v)
     return v
-
 
 def outputs(net: Network, w: list[list[int]]) -> list[list[int]]:
     """
     Applies all the Comparators in the Network to
     all lists
     """
-    
-    v = w[:] #to aviod side effects
+    v = w[:] #to avoid side effects
 
     for i in range(0,len(v)):
         v[i] = apply(net,v[i])
@@ -122,9 +110,7 @@ def is_sorting(net: Network, size: int) -> bool:
     Checks whether a Network is a 
     Sorting Network or not
     """
-
     outs = all_outputs(net, size)
-
 
     if len(outs) < 2:
         return True
@@ -149,7 +135,6 @@ def is_sorting(net: Network, size: int) -> bool:
         
         return all_sorted
 
-
 def to_program(net: Network, var: str, aux: str) -> list[str]:
     """
     Returns a list of commands that applies net to the given list, using the
@@ -161,11 +146,3 @@ def to_program(net: Network, var: str, aux: str) -> list[str]:
         return []
     else:
         return Comp.to_program(net[-1],var,aux) + to_program(net[:-1],var,aux)
- 
-
-
-
-
-
-
-
