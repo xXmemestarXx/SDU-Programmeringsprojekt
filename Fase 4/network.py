@@ -55,22 +55,36 @@ def apply(net: Network, w: list[int]) -> list[int]:
 
     Returns a new list and does not edit the original
     """
+   
+    """ First try
     if size(net) == 0:
         return w
     else:
         v = w[:]
         return [Comp.apply(x,v) for x in net]
+    """
+
+    v = w[:]
+    for c in net:
+        v = Comp.apply(c,v)
+    return v
+
 
 def outputs(net: Network, w: list[list[int]]) -> list[list[int]]:
     """
     Applies all the Comparators in the Network to
     all lists
     """
-    v = [apply(net,x) for x in w]
-    u = []
+    
+    v = w[:] #to aviod side effects
+
     for i in range(0,len(v)):
-        if v[i] not in u:
-            u.append(v[i])
+        v[i] = apply(net,v[i])
+
+    u = []
+    for i in v:
+        if i not in u:
+            u.append(i)
     return u
 
 def _binary_outputs(n: int) -> list[list[int]]:
@@ -108,7 +122,33 @@ def is_sorting(net: Network, size: int) -> bool:
     Checks whether a Network is a 
     Sorting Network or not
     """
-    return size(net) == (size + 1)
+
+    outs = all_outputs(net, size)
+
+
+    if len(outs) < 2:
+        return True
+
+    else:
+        all_sorted = True
+        
+        i = 1
+
+        while i < (len(outs) - 1) and all_sorted:
+            j = 0
+
+            while j < (len(outs[i]) - 1) and all_sorted:
+
+                if outs[i][j] > outs[i][j+1]:
+                    all_sorted = False    
+                
+                else:
+                    j = j + 1
+            
+            i = i +1
+        
+        return all_sorted
+
 
 def to_program(net: Network, var: str, aux: str) -> list[str]:
     """
@@ -120,7 +160,7 @@ def to_program(net: Network, var: str, aux: str) -> list[str]:
     if net == []:
         return []
     else:
-        return c.to_program(net[-1],var,aux) + to_program(net[:-1],var,aux)
+        return Comp.to_program(net[-1],var,aux) + to_program(net[:-1],var,aux)
  
 
 

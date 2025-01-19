@@ -300,8 +300,6 @@ print(f"{Net}")
 print(f"")
 print(f"List before: {v}")
 print(f"")
-print(f"Each step taken for sorting the list")
-print(f"")
 print(f"List after: {Netw.apply(Net,v)}")
 print(f"")
 
@@ -389,7 +387,7 @@ Net = Netw.append(Com_2,Net)
 Net = Netw.append(Com_3,Net)
 
 print(f"Network to test with: {Net}")
-print(f"All permutations unsorted: {Netw.permutations(3)}")
+print(f"All permutations unsorted: {Netw._binary_outputs(3)}")
 print(f"All permutations sorted: {Netw.all_outputs(Net, 3)}")
 
 print(f"")
@@ -425,7 +423,7 @@ Net = Netw.append(com3,Net)
 print(f"First case where the three criteria are OK")
 print(f"Max: {Netw.max_channel(Net)}")
 
-print(f"The network contains: {Netw.to_string(Net)}")
+print(f"The network contains: {Net}")
 print(f"")
 
 print(f"Is the network able to sort a network of size {3}: {Netw.is_sorting(Net,3)}")
@@ -436,7 +434,7 @@ print(f"")
 print(f"Second case where the network is empty")
 print(f"Max: 0")
 
-print(f"The network contains: {Netw.to_string(Net)}")
+print(f"The network contains: {Net}")
 print(f"")
 
 print(f"Is the network able to sort a network of size {0}: {Netw.is_sorting(Net,0)}")
@@ -457,7 +455,7 @@ Net = Netw.append(Com_3,Net)
 
 print(f"Max: {Netw.max_channel(Net)}")
 
-print(f"The network contains: {Netw.to_string(Net)}")
+print(f"The network contains: {Net}")
 print(f"")
 
 print(f"Is the network able to sort a network of size {4}: {Netw.is_sorting(Net,5)}")
@@ -475,7 +473,7 @@ Net = Netw.append(Com_2,Net)
 
 print(f"Max: {Netw.max_channel(Net)}")
 
-print(f"The network contains: {Netw.to_string(Net)}")
+print(f"The network contains: {Net}")
 print(f"")
 
 print(f"Is the network able to sort a network of size {3}: {Netw.is_sorting(Net,3)}")
@@ -495,24 +493,16 @@ print(f"Testing to_program()")
 print(f"")
 
 Net = Netw.empty_network()
-v = [9,5,8,23]
-len_v = len(v)
-for i in range(len_v - 1):
-    for j in range(len_v - 1):
-        Com = Comp.make_comparator(j, j+1)
-        Netw.append(Com, Net)
-outputs = Netw.to_program(Net, "v", "aux")
-print(outputs)
 
-empty_string = ""
+com1 = Comp.make_comparator(0,1)
+com2 = Comp.make_comparator(0,2)
+com3 = Comp.make_comparator(1,2)
 
-for x in range(len(outputs)):
-    empty_string += outputs[x]
+Net = Netw.append(com1,Net)
+Net = Netw.append(com2,Net)
+Net = Netw.append(com3,Net)
 
-print(f"list before: {v}")
-aux:int
-exec(empty_string)
-print(f"list after: {v}")
+print(f"{Netw.to_program(Net,"","")}")
 
 print(f"")
 print(f"------- test 11 end -------")
