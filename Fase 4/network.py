@@ -1,77 +1,149 @@
-import comparator2 as c
+"""
+Importing the Comparator module, since Network builds upon its functionalities:
+"""
+import comparator2 as Comp
 from comparator2 import Comparator
 
+"""
+Define a Network as list of Comparators
+"""
 Network = list[Comparator]
-# The comparators are in reverse order, just because.
 
 def empty_network() -> Network:
-    """Creates an empty comparator network."""
+    """
+    Return a empty Network
+    """
     return []
 
-def append(c: Comparator, n: Network) -> Network:
-    """Adds c to the end of n."""
-    return [c] + n
+def append(c: Comparator, net: Network) -> Network:
+    """
+    Takes a existing Network and appends the new
+    Comparator to the end of the list.
 
-def size(n: Network) -> int:
-    """The number of comparators in n."""
-    return len(n)
+    Returns a new Network and does not edit the
+    input Network
+    """
+    copy_net = net[:]
+    new_net = copy_net + [c]
+    return new_net
 
-def is_standard(n: Network) -> bool:
-    """Checks whether n only contains standard comparators."""
-    return all(map(c.is_standard,n))
+def size(net: Network) -> int:
+    """
+    Counts the size of a Network and return
+    the size as a integer
+    """
+    return len(net)
 
-def apply(n: Network, w: list[int]) -> list[int]:
-    """Applies n to w."""
-    if n == []:
-        return w
-    else:
-        return(apply(n[:-1],c.apply(n[-1],w)))
+def max_channel(net: Network) -> int:
+    """
+    Returns the highest channel where a Network
+    will place a value
+    """
+    return max(list(map(Comp.max_channel,net)))
 
-def _all_binary_inputs(n: int) -> list[list[int]]:
-    """Creates a list with all binary sequences of length n."""
-    return [_to_bin(i,n) for i in range(2**n)]
+def is_standard(net: Network) -> bool:
+    """
+    Checks if a Network only contains standard
+    Comparators or not
+    """
+    return all(list(map(Comp.is_standard,net)))
 
-def _to_bin(i: int, n: int) -> list[list[int]]:
-    """Converts i to binary in some sense."""
-    if n == 0:
-        return []
-    elif i%2 == 0:
-        return [0] + _to_bin(i//2,n-1)
-    else:
-        return [1] + _to_bin(i//2,n-1)
+def apply(net: Network, w: list[int]) -> list[int]:
+    """
+    applies all the Comparators in a Network
+    on a single list of integers
 
-def outputs(n: Network, w: list[list[int]]) -> list[list[int]]:
-    """Applies n to all inputs in w, removing duplicates."""
-    if w == []:
-        return []
-    else:
-        next = apply(n, w[0])
-        all = outputs(n, w[1:])
-        if next in all:
-            return all
-        else:
-            return [next] + all
+    Returns a new list and does not edit the original
+    """
+    v = w[:]
+    for c in net:
+        v = Comp.apply(c,v)
+    return v
+
+def outputs(net: Network, w: list[list[int]]) -> list[list[int]]:
+    """
+    Applies all the Comparators in the Network to
+    all lists
+    """
+    v = w[:] #to avoid side effects
+
+    for i in range(0,len(v)):
+        v[i] = apply(net,v[i])
+
+    u = []
+    for i in v:
+        if i not in u:
+            u.append(i)
+    return u
+
+def _binary_outputs(n: int) -> list[list[int]]:
+    """
+    Constructs a list of binary numbers in the
+    form of lists of 0's and 1's
+    """
+    outer = []
+    goal = 2**n
+    i = 0
+    while i < goal:
+        inner = []
+        m = 0
+        j = i
+        while n > m:
+            if j%2 == 0:
+                inner = [0] + inner
+            else: #same as i%2 == 1
+                inner = [1] + inner
+            m = m + 1
+            j =  j//2
+        i = i + 1
+        outer.append(inner)
+    return outer
 
 def all_outputs(net: Network, n: int) -> list[list[int]]:
-    """Returns all outputs of a network."""
-    return outputs(net,_all_binary_inputs(n))
-
-def _is_sorted(w: list[int]) -> bool:
-    """Checks whether w is sorted."""
-    return (len(w) < 2 or
-            ((w[0] <= w[1]) and _is_sorted(w[1:])))
+    """
+    Returns the binary representation of a Networks
+    ability to sort integers
+    """
+    return outputs(net,_binary_outputs(n))
 
 def is_sorting(net: Network, size: int) -> bool:
-    """Checks whether net is a sorting network on size inputs."""
-    return all(map(lambda x:_is_sorted(x),
-                   all_outputs(net, size)))
+    """
+    Checks whether a Network is a 
+    Sorting Network or not
+    """
+    outs = all_outputs(net, size)
+
+    if len(outs) < 2:
+        return True
+
+    else:
+        all_sorted = True
+        
+        i = 1
+
+        while i < (len(outs) - 1) and all_sorted:
+            j = 0
+
+            while j < (len(outs[i]) - 1) and all_sorted:
+
+                if outs[i][j] > outs[i][j+1]:
+                    all_sorted = False    
+                
+                else:
+                    j = j + 1
+            
+            i = i +1
+        
+        return all_sorted
 
 def to_program(net: Network, var: str, aux: str) -> list[str]:
     """
     Returns a list of commands that applies net to the given list, using the
     given auxiliary variable.
+
+    Recycled Luis' inplementation
     """
     if net == []:
         return []
     else:
-        return c.to_program(net[-1],var,aux) + to_program(net[:-1],var,aux)
+        return Comp.to_program(net[-1],var,aux) + to_program(net[:-1],var,aux)

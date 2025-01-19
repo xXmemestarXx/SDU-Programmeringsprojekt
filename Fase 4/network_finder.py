@@ -14,10 +14,10 @@ from dataclasses import *
 """
 Importing our own and our lecturer's modules
 """
-import comparator2 as Comp
+
 import network as Netw
 import filter_new as Filt
-import generate_new as Gene
+import generate2 as Gene
 import prune as Prun
 
 

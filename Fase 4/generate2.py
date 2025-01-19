@@ -59,10 +59,13 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     #if out1 != out2:
     #    res.append(stdComp[0])
     
+    stdComp = Comp.std_comparators(n)
+
     res = []
 
     for x in range(len(w)):
-        if Filt.is_redundant(stdComp[x],w):
-            res.append(stdComp[x])
+      for y in range(len(stdComp)):
+        if not Filt.is_redundant(stdComp[y],w[x]):
+            res.append(Filt.add(stdComp[y],w[x]))
     return res
   
