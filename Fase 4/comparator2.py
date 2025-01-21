@@ -54,9 +54,9 @@ def apply(c: Comparator, w: list[int]) -> list[int]:
     """
     cmin, cmax = min_channel(c), max_channel(c)
 
-    if w[cmin] > w[cmax]: #not sorted
+    if w[cmin] > w[cmax]: # not sorted
 
-        copy = w[:] #to avoid side effects
+        copy = w[:] # to avoid side effects
 
         aux = copy[cmin]
 
