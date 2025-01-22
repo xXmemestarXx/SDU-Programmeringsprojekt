@@ -46,6 +46,8 @@ def extend(w: list[Filter], n: int) -> list[Filter]:
     """
 
     # Gets all std comp
+
+    
     stdComp = Comp.std_comparators(n)
     
     res = []
